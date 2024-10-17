@@ -3,7 +3,7 @@ import user, { userTyp } from "../../db/schemas/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const secret = "secret";
+const secret = process.env.secret || "secret";
 
 const router = Router();
 

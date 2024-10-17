@@ -3,6 +3,7 @@ import { connectDb } from "./db/connect";
 import authRoute from "./routes/v1/auth";
 import patientRoute from "./routes/v1/patients";
 import authRequestRoute from "./routes/v1/authRequest";
+import cors from "cors";
 
 const app = express();
 
@@ -11,6 +12,7 @@ const mongo_uri =
   "mongodb+srv://makennavtesh:f5ZdnC6NwGa8XLV1@cluster0.pb5xy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/healthCare";
 connectDb(mongo_uri);
 app.use(json());
+app.use(cors());
 
 app.use("/auth", authRoute);
 app.use("/patient", patientRoute);
