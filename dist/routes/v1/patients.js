@@ -36,22 +36,6 @@ router.post("/create", auth_1.authMiddleware, (req, res) => __awaiter(void 0, vo
         console.log(error);
     }
 }));
-router.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const data = yield patient_1.default.create({
-            name: req.body.name,
-            age: req.body.age,
-            treatmentPlan: req.body.treatmentPlan,
-            medicalHistory: req.body.medicalHistory,
-            labDetails: req.body.labDetails,
-        });
-        console.log(data);
-        res.json({ message: "data inserted" });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}));
 router.get("/all", auth_1.authMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!res.locals.user._id) {
         res.json({ message: "unauthorized" });

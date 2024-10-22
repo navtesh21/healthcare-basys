@@ -11,7 +11,6 @@ const authRequest_1 = __importDefault(require("./routes/v1/authRequest"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
-app.options('*', (0, cors_1.default)()); // Respond to preflight requests
 const mongo_uri = process.env.mongo_uri ||
     "mongodb+srv://makennavtesh:f5ZdnC6NwGa8XLV1@cluster0.pb5xy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/healthCare";
 (0, connect_1.connectDb)(mongo_uri);
@@ -19,12 +18,6 @@ app.use(express_1.default.json());
 app.use("/auth", auth_1.default);
 app.use("/patient", patients_1.default);
 app.use("/authRequest", authRequest_1.default);
-app.get("/", (req, res) => {
-    res.send("hellolalaa");
-});
-app.post("/", (req, res) => {
-    res.send("hello");
-});
 app.listen(3001, () => {
     console.log("connected");
 });

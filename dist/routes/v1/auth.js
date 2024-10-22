@@ -29,25 +29,28 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).json({
             message: "user created",
         });
+        return;
     }
     catch (error) {
         console.error(error);
         res.status(411).json({
             message: "server error",
         });
+        return;
     }
 }));
 router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.email;
     const password = req.body.password;
-    console.log("email", email);
     const data = yield user_1.default.findOne({ email });
     console.log(data);
     if (!data) {
         res.status(404).json({ message: "user not found" });
+        return;
     }
     if (password != (data === null || data === void 0 ? void 0 : data.password)) {
-        res.status(411).json({ message: "incorrect password" });
+        res.status(403).json({ message: "incorrect password" });
+        return;
     }
     const token = jsonwebtoken_1.default.sign(JSON.stringify(data) || "", secret);
     res.status(200).json({ token });

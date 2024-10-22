@@ -43,8 +43,13 @@ router.get("/all", auth_1.authMiddleware, (req, res) => __awaiter(void 0, void 0
         res.json({ message: "unauthorized" });
     }
     try {
-        const data = yield authrequest_1.default.where({ doctorId: res.locals.user._id });
-        res.json({ data });
+        const data = authrequest_1.default
+            .where({ doctorId: res.locals.user._id })
+            .populate({ path: "patientID" }) // key to populate
+            .then((user) => {
+            console.log(user);
+            res.json(user);
+        });
     }
     catch (error) {
         console.log(error);
