@@ -24,21 +24,6 @@ router.post("/create", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-router.post("/create", async (req: Request, res: Response) => {
-  try {
-    const data = await patient.create({
-      name: req.body.name,
-      age: req.body.age,
-      treatmentPlan: req.body.treatmentPlan,
-      medicalHistory: req.body.medicalHistory,
-      labDetails: req.body.labDetails,
-    });
-    console.log(data);
-    res.json({ message: "data inserted" });
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 router.get("/all", authMiddleware, async (req: Request, res: Response) => {
   if (!res.locals.user._id) {

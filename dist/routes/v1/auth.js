@@ -14,21 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_1 = __importDefault(require("../../db/schemas/user"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const secret = "secret";
+const secret = process.env.secret || "secret";
 const router = (0, express_1.Router)();
 router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.email;
     const password = req.body.password;
-    const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     try {
         const data = yield user_1.default.create({
             email,
-            password: hashedPassword,
+            password,
         });
         console.log(data);
-        res.status(400).json({
+        res.status(200).json({
             message: "user created",
         });
     }
@@ -42,13 +40,13 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.email;
     const password = req.body.password;
+    console.log("email", email);
     const data = yield user_1.default.findOne({ email });
     console.log(data);
     if (!data) {
         res.status(404).json({ message: "user not found" });
     }
-    const hashedPassword = yield bcrypt_1.default.compare(password, (data === null || data === void 0 ? void 0 : data.password) || "");
-    if (!hashedPassword) {
+    if (password != (data === null || data === void 0 ? void 0 : data.password)) {
         res.status(411).json({ message: "incorrect password" });
     }
     const token = jsonwebtoken_1.default.sign(JSON.stringify(data) || "", secret);

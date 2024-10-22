@@ -32,8 +32,13 @@ router.get("/all", authMiddleware, async (req: Request, res: Response) => {
   }
 
   try {
-    const data = await authrequest.where({ doctorId: res.locals.user._id });
-    res.json({ data });
+    const data = authrequest
+      .where({ doctorId: res.locals.user._id })
+      .populate({ path: "patientID" }) // key to populate
+      .then((user) => {
+        console.log(user);
+        res.json(user);
+      });
   } catch (error) {
     console.log(error);
     res.json({ message: "server error" });
